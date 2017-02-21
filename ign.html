@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Jquert CDN -->
+
+<style type="text/css">
+#wrapper {
+    width: 450px;
+    height: 450px;
+    /*#margin-top: 100px; */
+    margin-left: auto;
+    margin-right: auto;
+    background: #000000;
+}
+.row {
+    width: auto;
+    height: 12.5px;
+    background: #313131;
+}
+.square {
+    width: 50px;
+    height: 50px;
+    margin: 0px;
+    outline: 1px solid;
+    display: inline-block;
+    float: left;
+    background: #FFFFFF;
+}
+</style>
+
+
+
+<script       src="https://code.jquery.com/jquery-3.1.1.min.js"
+			  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+			  crossorigin="anonymous"></script>
+</head>
+<body>
+	<p> Please enter the value of n, such that 0 <= n <= 9. <br> <span style="font-weight: bold;"> Please refresh the webpage before trying another value</span></p>
+	<input id="grid_size"></input>
+	<button onclick="get_grid_size()"> Submit </button> 
+	<div id="wrapper"></div>
+</body>
+	<footer>
+		<script type="text/javascript">
+		//Defined global variables row and square
+		var $row = $("<div />", {
+			    class: 'row'
+			});
+			
+		var $square = $("<div />", {
+		    class: 'square'
+		});
+
+		function get_grid_size(){
+			var n = parseInt($("#grid_size").val());
+			create_grid(n);
+		}
+
+		function create_grid(n){
+			/* Set size of grid depending on value of n given by user */ 
+
+		if(n == 0){
+			$("#wrapper").width(0).height(0);
+		}else if( n == 1){
+			$("#wrapper").width(50).height(50);
+		}else if( n == 2){
+			$("#wrapper").width(100).height(100);
+		}else if( n == 3){
+			$("#wrapper").width(150).height(150);
+		}else if( n == 4){
+			$("#wrapper").width(200).height(200);
+		}else if( n == 5){
+			$("#wrapper").width(250).height(250);
+		}else if( n == 6){
+			$("#wrapper").width(300).height(300);
+		}else if( n == 7){
+			$("#wrapper").width(350).height(350);
+		}else if( n == 8){
+			$("#wrapper").width(400).height(400);
+		}else if( n == 9){
+			$("#wrapper").width(450).height(450);
+		}
+
+		var rows = n;
+		var columns = n;
+
+		console.log(rows +" "+ columns)
+
+			 //add columns to the the temp row object
+		$(document).ready(function () {
+		    for (var i = 0; i < columns; i++) {
+		    	console.log("inside first for loop");
+		        $row.append($square.clone());
+		    }
+		    //clone the temp row object with the columns to the wrapper
+		    for (var i = 0; i < rows; i++) {
+		        $("#wrapper").append($row.clone());
+		    }
+		   });
+		}
+		</script>
+	</footer>
+</html>
