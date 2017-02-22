@@ -7,7 +7,7 @@
 #wrapper {
     width: 450px;
     height: 450px;
-    /*#margin-top: 100px; */
+    margin-top: 30px; 
     margin-left: auto;
     margin-right: auto;
     background: #000000;
@@ -25,6 +25,8 @@
     display: inline-block;
     float: left;
     background: #FFFFFF;
+    font-size: 35px;
+    text-align: center;
 }
 </style>
 
@@ -43,6 +45,8 @@
 	<footer>
 		<script type="text/javascript">
 		//Defined global variables row and square
+
+
 		var $row = $("<div />", {
 			    class: 'row'
 			});
@@ -53,6 +57,7 @@
 
 		function get_grid_size(){
 			var n = parseInt($("#grid_size").val());
+
 			create_grid(n);
 		}
 
@@ -83,20 +88,51 @@
 
 		var rows = n;
 		var columns = n;
+		var numbers = [];
 
-		console.log(rows +" "+ columns)
+		// generate random numbers for each grid point
+		for(i = 1; i <= n*n; i ++){
+			numbers[i] = randNum();
+			console.log( typeof(numbers[i]));
+		}
+
+		console.log(rows +" "+ columns);
 
 			 //add columns to the the temp row object
 		$(document).ready(function () {
+
+
 		    for (var i = 0; i < columns; i++) {
-		    	console.log("inside first for loop");
+		    	//console.log("inside first for loop");
 		        $row.append($square.clone());
 		    }
 		    //clone the temp row object with the columns to the wrapper
 		    for (var i = 0; i < rows; i++) {
 		        $("#wrapper").append($row.clone());
 		    }
+		    // going to insert the random integers from 0-9 
+		    for( var i = 0; i < columns; i++){
+		    	for( var j = 0; j < rows; j++){
+
+		    	}
+		    }
+
+		    newp2 = document.createElement("p");
+
+		    // add unique id to each index
+		    $('.square').each(function(x) {
+		    	//start at index 1;
+		    	 x = x + 1;
+    			$(this).attr('id', 'id-' + x);
+    			$(this).text(numbers[x]);
+			});
+
 		   });
+
+		}
+
+		function randNum(){
+			return (Math.floor((Math.random() * 10))).toString();
 		}
 		</script>
 	</footer>
