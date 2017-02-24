@@ -55,6 +55,10 @@
 		    class: 'square'
 		});
 
+		function randNum(){
+			return (Math.floor((Math.random() * 10))).toString();
+		}
+
 		function get_grid_size(){
 			var n = parseInt($("#grid_size").val());
 
@@ -63,6 +67,12 @@
 
 		function create_grid(n){
 			/* Set size of grid depending on value of n given by user */ 
+
+
+		var arrayList = new Array(n + 2);
+		for (var i = 0; i < n +2; i++) {
+			arrayList[i] = new Array(n + 2);
+		}
 
 		if(n == 0){
 			$("#wrapper").width(0).height(0);
@@ -91,12 +101,9 @@
 		var numbers = [];
 
 		// generate random numbers for each grid point
-		for(i = 1; i <= n*n; i ++){
+		for(i = 1; i <= n*n; i++){
 			numbers[i] = randNum();
-			console.log( typeof(numbers[i]));
 		}
-
-		console.log(rows +" "+ columns);
 
 			 //add columns to the the temp row object
 		$(document).ready(function () {
@@ -110,14 +117,6 @@
 		    for (var i = 0; i < rows; i++) {
 		        $("#wrapper").append($row.clone());
 		    }
-		    // going to insert the random integers from 0-9 
-		    for( var i = 0; i < columns; i++){
-		    	for( var j = 0; j < rows; j++){
-
-		    	}
-		    }
-
-		    newp2 = document.createElement("p");
 
 		    // add unique id to each index
 		    $('.square').each(function(x) {
@@ -127,13 +126,87 @@
     			$(this).text(numbers[x]);
 			});
 
-		   });
+		  });
 
+
+	 	create_array_list(arrayList, numbers, n);
 		}
 
-		function randNum(){
-			return (Math.floor((Math.random() * 10))).toString();
+
+
+		function create_array_list(arrayList, numbers, n){
+			var x = 1;
+			var adjMatrix = new Array(n);
+
+
+
+			// adding -1 to matrix border 
+			for(var i = 0; i < n + 2 ; i++){
+				for(var j = 0; j < n + 2; j++){
+					if(i == 0 || i == n + 1){
+						arrayList[i][j] = -1;
+					}else if( j == 0 || j == n + 1){
+						arrayList[i][j] = -1;
+					}else{
+						arrayList[i][j] = parseInt(numbers[x]);
+						x = x + 1; 
+					}
+				}
+			}
+			// Now we have numbers in 2x2 array and we can search through array to look for vertex adjacency
+			
+		/*
+			console.log("\n \n \n");
+			for(var i = 0; i < n+2; i++){
+				for(var j = 0; j < n+2; j++){
+					console.log(arrayList[i][j]);
+				}
+			}
+
+			creating adjMatrix
+			for(var i=0; i < n; i++){
+				for(var j=0; j < n; j++ ){
+					findingNeighbors(arrayList, i, j, n);
+				}
+			} 
+
+			 adjMatrix[0] = findingNeighbors(arrayList, 0, 0, n);
+
+			  for(var j = 0; j < n * n; j++){
+			  	console.log(adjMatrix[0][j]);
+			  }
+		*/
 		}
+
+		//will return array where indices store adjacent vertices
+		function findingNeighbors(myArray, i, j, n) {
+		  var count = 0;
+		  var neighbors_array = new Array(n * n);
+		  var rowLimit = Object.keys(myArray).length-1;
+		  var columnLimit = Object.keys(myArray[0]).length-1;
+
+		  // initialize all array index values in neighbors_array = -1
+		  for(var a = 0; a < n * n; a++){
+		  	neighbors_array[a] = -1; 
+		  }
+
+
+
+			for(var x = Math.max(0, i-1); x <= Math.min(i+1, rowLimit); x++) {
+			    for(var y = Math.max(0, j-1); y <= Math.min(j+1, columnLimit); y++) {
+			      if(x !== i || y !== j) {
+			      	console.log("value of x and y = "+ x + " "+y);
+			      	console.log(myArray[x][y]);
+			      	neighbors_array[count] = myArray[x][y];
+			      	count = count + 1;
+			      }
+			    } 
+			}
+
+			return neighbors_array;
+		}
+
+
 		</script>
 	</footer>
 </html>
