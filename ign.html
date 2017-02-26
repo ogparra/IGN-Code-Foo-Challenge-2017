@@ -155,27 +155,43 @@
 			}
 			// Now we have numbers in 2x2 array and we can search through array to look for vertex adjacency
 			
-		/*
+			/*
 			console.log("\n \n \n");
 			for(var i = 0; i < n+2; i++){
 				for(var j = 0; j < n+2; j++){
 					console.log(arrayList[i][j]);
 				}
 			}
-
-			creating adjMatrix
-			for(var i=0; i < n; i++){
-				for(var j=0; j < n; j++ ){
-					findingNeighbors(arrayList, i, j, n);
+			
+			*/
+			//creating adjMatrix
+			var count = 0;
+			for(var i=1; i < n+1; i++){
+				for(var j=1; j < n+1; j++){
+					adjMatrix[count] = findingNeighbors(arrayList, i, j, n);
+					count = count + 1;
 				}
+				//count = count + 1;
 			} 
+			
+			for(var i = 0; i < n * n; i++){
+				for( var j = 0; j < n * n; j++){
+			  		console.log(adjMatrix[i][j]);
+			  	}
+			  	console.log("AFTER print");
+			}
+			
 
-			 adjMatrix[0] = findingNeighbors(arrayList, 0, 0, n);
 
-			  for(var j = 0; j < n * n; j++){
-			  	console.log(adjMatrix[0][j]);
-			  }
-		*/
+			/* get adjacency for first index
+			adjMatrix[0] = findingNeighbors(arrayList, 3, 3, n);
+
+			for(var i = 0; i < n*n; i++){
+				console.log(adjMatrix[0][i]);
+			}
+			*/
+		
+
 		}
 
 		//will return array where indices store adjacent vertices
@@ -185,19 +201,16 @@
 		  var rowLimit = Object.keys(myArray).length-1;
 		  var columnLimit = Object.keys(myArray[0]).length-1;
 
-		  // initialize all array index values in neighbors_array = -1
-		  for(var a = 0; a < n * n; a++){
-		  	neighbors_array[a] = -1; 
-		  }
-
-
-
 			for(var x = Math.max(0, i-1); x <= Math.min(i+1, rowLimit); x++) {
 			    for(var y = Math.max(0, j-1); y <= Math.min(j+1, columnLimit); y++) {
 			      if(x !== i || y !== j) {
 			      	console.log("value of x and y = "+ x + " "+y);
 			      	console.log(myArray[x][y]);
 			      	neighbors_array[count] = myArray[x][y];
+			      	count = count + 1;
+			      }else {
+			      	//vertex we are looking at 
+			      	neighbors_array[count] = -1; 
 			      	count = count + 1;
 			      }
 			    } 
