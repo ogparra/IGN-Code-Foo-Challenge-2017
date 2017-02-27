@@ -162,28 +162,29 @@
 					adjMatrix[count] = findingNeighbors(arrayList, i, j, n);
 					count = count + 1;
 				}
-				//count = count + 1;
 			} 
 			
-			for(var i = 0; i < n * n; i++){
-				for( var j = 0; j < n * n; j++){
+			for(var i = 0; i < n * n ; i++){
+				for( var j = 0; j < n * n ; j++){
 			  		console.log(adjMatrix[i][j]);
 			  	}
 			  	console.log("AFTER print");
 			}
 			
-			arrayValue(adjMatrix, arrayList, 4);
+
+			//this 4 will check for adjacency for first index in adjMatrix array
+			arrayValue(adjMatrix, arrayList, 8);
 
 			/*
-			adjIndex = 0; 
-			for(var i = 1; i < n + 1 ; i++){
-				for(var j = 1; j < n +1; j ++ ){
+			adjIdx = 0; 
+			for(var i = 1; i < n + 1; i++){
+				for(var j = 1; j < n +1; j++ ){
 					var path = [];
-					findPaths(adjMatrix, arrayList, path, n*n, i, j, adjIndex);
-					adjIndex = adjIndex + 1;
+					findPaths(adjMatrix, arrayList, path, n*n, i, j, adjIdx, idx);
+					adjIdx = adjIdx + 1;
 				}	
 			}
-			*/
+			*/ 
 		}
 
 		//will return array where indices store adjacent vertices
@@ -212,36 +213,11 @@
 		}
 
 
-		function arrayValue(adjMatrix, arrayList, i){
-			console.log("\n \n \n \n \n \n \n \n");
-			//console.log("The adjacent matrix is: "+ adjMatrix[i][j]+" the value for the matrix cell: "+ arrayList[i+1][j+1] + " the array indices are: " + i+1 +" "+ j+1);
-			
-			for(var x = 1; x < Object.keys(adjMatrix).length+1; x++){
-				if( (adjMatrix[i][x] != -1) && (x < 4) ){
-					console.log("inside first if statement");
-					console.log(adjMatrix[i][x]+ " the array indices are: " + Math.ceil(x/3) +" "+ x );
-					j = j + 3;
-				}else if((adjMatrix[i][x] != -1) && (x < 7 )){
-					console.log("inside second if statement");
-					console.log(adjMatrix[i][x]+ " the array indices are: " + Math.ceil(x/3) +" "+ Math.round(x/3) );
-
-				}else if((adjMatrix[i][x] != -1) && (x < 10)){
-					console.log("inside third if statement");
-					console.log(adjMatrix[i][x]+ " the array indices are: " + Math.ceil(x/3) +" "+ Math.round(x/3) );
-				}
-			}
-			
-		}
-
-
-
-
-
 		/*
 		// find paths of specific length 
-		function findPaths(adjMatrix, arrayList, path, pathWeight, x, y, adjIndex){
+		function findPaths(adjMatrix, arrayList, path, pathWeight, x, y, adjIdx, idx){
 		var curpath = path; // set curpath to the current path 
-		var tempArray = arrayList// arrayList (we mark a current node as seen if the value in the arrayList is -1)
+		var tempArray = adjMatrix // we mark the value in the adjMatrix to negative one if we have already seen the seen the value stored in the cell
 			if (curValue() == pathWeight){
 				for(i = 0; i < Object.keys(curpath).length; i++){
 					console.log(curpath[i]);
@@ -255,16 +231,15 @@
 			}	
 
 			//place value in array list inside the curpath // have to pass in the value of i 
-			curpath[i] = tempArray[x][y]; 
+			curpath[idx] = tempArray[x][y]; 
 			tempArray[x][y] = -1;
 
+			// there is less than pathWeight nodes in the graph to add to the path 
 			for(var i = 0; i < pathWeight; i++){
-				if(adjMatrix[adjIndex][i] != -1){
-
+				if(adjMatrix[adjIdx][i] != -1){
 					// i have the the array index is 5 for the next neighbor, how do I get new array index in the 
-					findPaths(adjMatrix, tempArray, curpath, pathWeight,  adjIndex)
+					findPaths(adjMatrix, tempArray, curpath, pathWeight, adjIdx, i, adjIdx, idx);
 			}
-
 		}
 
 
@@ -276,7 +251,7 @@
 			}
 			return value;
 		}
-		*/
+		
 		/*
 		list curpath := {}
 		int dest, maxlen
@@ -294,6 +269,94 @@
 		        findPaths(nextNode, dist + edgeDist)
 		    remove last element of curpath
 		*/
+
+
+
+
+		
+		function arrayValue(adjMatrix, arrayList, i){
+			console.log("\n \n \n \n \n \n \n \n");
+			//console.log("The adjacent matrix is: "+ adjMatrix[i][j]+" the value for the matrix cell: "+ arrayList[i+1][j+1] + " the array indices are: " + i+1 +" "+ j+1)
+			if (i < 3){
+				console.log("IAM A PRINTER");
+				for(var x = 1; x < Object.keys(adjMatrix).length +1; x++){
+					if( (adjMatrix[i][x-1] != -1) && (x < 4) ){
+						//  do nothing all values are -1 in arrayList
+					}else if((adjMatrix[i][x-1] != -1) && (x < 7)){
+						if( i == 0){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x-1)/3) +" " + parseInt(x-4));
+						}else if(i == 1){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x-1)/3) +" " + parseInt(x-3));
+						}else if(i== 2){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x-1)/3) +" " + parseInt(x-2));
+						}
+					}else if((adjMatrix[i][x-1] != -1) && (x < 10)){
+						if(i == 0){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x-1)/3) +" "+ parseInt(x-7) );
+						}else if(i==1){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x-1)/3) +" "+ parseInt(x-6) );
+						}else if(i==2){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x-1)/3) +" "+ parseInt(x-5));
+						}
+					}
+				}
+			}else if( (i => 3) && (i < 6)){
+				for(var x = 1; x < Object.keys(adjMatrix).length +1; x++){
+					if( (adjMatrix[i][x-1] != -1) && (x < 4) ){
+						if(i == 3){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil(x/3) +" "+ parseInt(x-1) );
+						}else if ( i == 4){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x)/3) +" "+ parseInt(x));
+						}else if( i == 5){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil(x/3) +" "+ parseInt(x+1) );
+						}
+
+					}else if((adjMatrix[i][x-1] != -1) && (x < 7)){
+						if(i == 3 ){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil(x/3) +" "+ parseInt(x-4));
+						}else if( i == 4){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x+2)/3) +" " + parseInt(x-3));
+						}else if( i == 5){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil(x/3) +" "+ parseInt(x-2));
+						}
+					}else if((adjMatrix[i][x-1] != -1) && (x < 10)){
+						if(i == 3 ){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil(x/3) +" "+ parseInt(x-7));
+						}else if( i == 4){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.floor((x+2)/3) +" "+ parseInt(x-6));
+						}else if( i == 5){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil(x/3) +" "+ parseInt(x-5));
+						}
+
+					}
+				}
+			}else if( (i => 6) && i < 9){
+				for(var x = 1; x < Object.keys(adjMatrix).length +1; x++){
+					if( (adjMatrix[i][x-1] != -1) && (x < 4) ){
+						if( i == 6){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x+3)/3) +" "+ parseInt(x-1) );
+						}else if( i == 7){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x+3)/3) +" "+ parseInt(x) );
+						}else if( i == 8){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x+3)/3) +" "+ parseInt(x+1) );
+						}
+					}else if((adjMatrix[i][x-1] != -1) && (x < 7)){
+						if( i == 6){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x+3)/3) +" "+ parseInt(x-4));
+						}else if( i == 7){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x+3)/3) +" "+ parseInt(x-3));
+						}else if( i == 8){
+							console.log(adjMatrix[i][x-1]+ " the array indices are: " + Math.ceil((x+3)/3) +" "+ parseInt(x-2));
+						}
+
+					}else if((adjMatrix[i][x-1] != -1) && (x < 10)){
+						// do nothing all values are -1 in arrayList
+					}
+				}
+			}	
+			
+		}
+		
 
 
 
